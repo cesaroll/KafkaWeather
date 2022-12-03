@@ -14,11 +14,14 @@ consumer.Subscribe("weather-topic");
 
 var token = new CancellationTokenSource();
 
+Console.WriteLine("Starting consumption");
 try
 {
   while (true)
   {
+    Console.WriteLine("Consuming ...");
     var response = consumer.Consume(token.Token);
+    Console.WriteLine("Response:");
     if (response.Message != null)
     {
       var weather = JsonConvert.DeserializeObject<Weather>(response.Message.Value);
@@ -28,7 +31,7 @@ try
 }
 catch (Exception e)
 {
-  Console.WriteLine(e);
+  Console.WriteLine("Error while consuming", e);
   throw;
 }
 
